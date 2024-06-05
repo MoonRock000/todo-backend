@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    task = Task.new(task_params, user: @current_user)
+    task = @current_user.tasks.new(task_params)
 
     if task.save
       render json: { task: }
@@ -17,11 +17,7 @@ class TasksController < ApplicationController
   end
 
   def show
-    if @task
-      render json: { task: @task }
-    else
-      render json: { errors: 'Could not find the task' }, status: :not_found
-    end
+    render json: { task: @task }
   end
 
   def update
@@ -43,7 +39,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = @current_user.tasks.find(params[:id])
+    @task = @current_user.tasks.find_by(id: params[:id])
 
     render json: { errors: 'Could not find the task' }, status: :not_found unless @task
   end
