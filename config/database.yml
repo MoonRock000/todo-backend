@@ -5,14 +5,12 @@ default: &default
 
 development:
   <<: *default
-  <<: *local
   database: <%= ENV['DEVELOPMENT_DATABASE'] %>
 
 test:
   <<: *default
-  <<: *local
   database: <%= ENV['TEST_DATABASE'] %>
 
 production:
   <<: *default
-  url: 
+  url:
