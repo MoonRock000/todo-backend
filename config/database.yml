@@ -5,11 +5,11 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV['DEVELOPMENT_DATABASE'] %>
+  database: <%= ENV['DEVELOPMENT_DATABASE'] || "todo_development" %>
 
 test:
   <<: *default
-  database: <%= ENV['TEST_DATABASE'] %>
+  database: <%= ENV['TEST_DATABASE'] || "todo_test" %>
 
 production:
   <<: *default
