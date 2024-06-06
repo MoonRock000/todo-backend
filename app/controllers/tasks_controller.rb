@@ -10,9 +10,9 @@ class TasksController < ApplicationController
     task = @current_user.tasks.new(task_params)
 
     if task.save
-      render json: { task: }
+      render json: { tasks: @current_user.tasks }
     else
-      render json: { errors: task.errors.full_messages }
+      render json: { errors: task.errors.full_messages }, status: 400
     end
   end
 
@@ -22,7 +22,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      render json: { task: @task }
+      render json: { tasks: @current_user.tasks }
     else
       render json: { errors: @task.errors.full_messages }
     end
@@ -30,9 +30,9 @@ class TasksController < ApplicationController
 
   def destroy
     if @task.destroy
-      render json: { taks: @current_user.tasks }
+      render json: { tasks: @current_user.tasks }
     else
-      render json: { errors: 'Could not delete the task' }
+      render json: { errors: 'Could not delete the task' }, status: 401
     end
   end
 
@@ -45,6 +45,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.permit(:description, :status)
+    params.require(:task).permit(:description, :status)
   end
 end
