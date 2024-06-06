@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       token = JWT.encode({ user_id: user.id }, Rails.application.credentials[:jwt_token_secret], 'HS256')
       render json: { user:, token: }
     else
-      render json: { errors: user.errors.full_messages }
+      render json: { errors: user.errors.full_messages }, status: 400
     end
   end
 
