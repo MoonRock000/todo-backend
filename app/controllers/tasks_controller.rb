@@ -3,7 +3,11 @@ class TasksController < ApplicationController
 
   def index
     tasks = @current_user.tasks
-    render json: { tasks: }
+    if tasks
+      render json: { tasks: }
+    else
+      render json: { errors: 'Could not fetch tasks' }, status: 400
+    end
   end
 
   def create
@@ -24,7 +28,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       render json: { tasks: @current_user.tasks }
     else
-      render json: { errors: @task.errors.full_messages }
+      render json: { errors: @task.errors.full_messages }, status: 400
     end
   end
 
